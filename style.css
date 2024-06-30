@@ -32,6 +32,9 @@ body {
     left: 50%;
     transform: translate(-50%, -50%);
     margin-top: 1em;
+    width: 100vw;
+    padding: 0 1em;
+    box-sizing: border-box;
 }
 
 #options #buttons button {
@@ -54,10 +57,27 @@ button:hover {
     border-color: #f49f1c;
 }
 
+#options h1 {
+    font-family: 'Rubik', Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    font-size: 2em;
+}
+
 canvas {
     display: block;
     margin: 0 auto;
     width: 50vw;
     height: 30vw;
     margin-top: 7.25em;
+}
+
+@media only screen and (max-width: 950px) {
+    #options #buttons {
+        flex-direction: column;
+        top: 10em;
+    }
+
+    canvas {
+        margin-top: 25em;
+        width: 90vw;
+    }
 }

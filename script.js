@@ -131,10 +131,40 @@ function bubbleSort() {
 
 // Selection sort algorithm
 function selectionSort() {
-
+    var n = rectangles.length;
+    var i = 0;
+    // Clear any existing sorting interval
+    if (sortingIntervalID !== null) {
+        clearInterval(sortingIntervalID);
+    }
+    sortingIntervalID = setInterval(function() {
+        if (i < n - 1) { 
+            var minIndex = i;
+            for (var j = i + 1; j < n; j++) {
+                if (rectangles[j].height < rectangles[minIndex].height) {
+                    minIndex = j;
+                }
+            }
+            if (minIndex != i) {
+                var temp = rectangles[i].height;
+                rectangles[i].height = rectangles[minIndex].height;
+                rectangles[minIndex].height = temp;
+                rectangles[i].y = canvas.height - rectangles[i].height - 10;
+                rectangles[minIndex].y = canvas.height - rectangles[minIndex].height - 10;
+                triangle.x = rectangles[minIndex].x;
+            }
+            drawRects();
+            triangle.draw();
+            i++;
+            if (i == n - 1) {
+                clearInterval(sortingIntervalID);
+            }
+        }
+    }, delay);
 }
 
 // Function to change sorting algorithm
+var algoLabel = document.querySelector("#algoLabel");
 function changeSorting(new_sorting) {
     // Clear the ongoing sorting process
     if (sortingIntervalID !== null) {
@@ -142,6 +172,17 @@ function changeSorting(new_sorting) {
         sortingIntervalID = null; // Reset the interval ID
     }
     current_sorting = new_sorting;
+    if (current_sorting == "bubble") {
+        algoLabel.innerHTML = "Bubble Sort";
+    } else if (current_sorting == "selection") {
+        algoLabel.innerHTML = "Selection Sort";
+    } else if (current_sorting == "insertion") {
+        algoLabel.innerHTML = "Insertion Sort";
+    } else if (current_sorting == "merge") {
+        algoLabel.innerHTML = "Merge Sort";
+    } else if (current_sorting == "quick") {
+        algoLabel.innerHTML = "Quick Sort";
+    }
     rectangles = []; 
     randomizeRectangles();
     drawRects();
