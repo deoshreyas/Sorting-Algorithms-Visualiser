@@ -17,7 +17,13 @@
             <button onclick="changeSorting(algorithms[3])">Merge</button>
             <button onclick="changeSorting(algorithms[4])">Quick</button>
         </div>
-        <button id="playBtn" onclick="play()"><i class="fa-solid fa-play"></i></button>
+        <div id="controls">
+            <button id="playBtn" onclick="play()"><i class="fa-solid fa-play"></i></button>
+            <div class="speed-class">
+                <h3>SPEED</h3>
+                <input value="100" type="number" name="speed" id="speed" min="1" max="1000" onchange="changeSpeed()" required>
+            </div>
+        </div>
     </div>
     <canvas id="canvas"></canvas>
     <script src="script.js"></script>

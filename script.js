@@ -12,7 +12,7 @@ var current_sorting = "bubble";
 var width = 1;
 
 // Delay in visualising
-var delay = 10;
+var delay = 100;
 
 // Get number of rectangles to draw based on width of canvas 
 var numRectangles = Math.floor(canvas.width / width);
@@ -85,6 +85,8 @@ function play() {
         insertionSort();
     } else if (current_sorting == "merge") {
         mergeSort();
+    } else if (current_sorting == "quick") {
+        quickSort()
     }
 }
 
@@ -197,7 +199,7 @@ function insertionSort() {
     }, delay);
 }
 
-// Merge sort algorithm visualization
+// Merge sort algorithm 
 function mergeSort() {
     var n = rectangles.length;
     var width = 1;
@@ -214,10 +216,18 @@ function mergeSort() {
         for (leftStart = 0; leftStart < n-1; leftStart += 2*currentSize) {
             var mid = Math.min(leftStart + currentSize - 1, n-1);
             var rightEnd = Math.min(leftStart + 2*currentSize - 1, n-1);
+            
+            // Move the triangle to the start of the current segment
+            triangle.x = leftStart * width;
+            drawRects();
+            triangle.draw();
+            
             merge(rectangles, sorted, leftStart, mid, rightEnd);
+            
+            // Redraw after merge to update the positions
+            drawRects();
+            triangle.draw();
         }
-        drawRects();
-        triangle.draw();
         currentSize *= 2;
         if (currentSize >= n) {
             clearInterval(sortingIntervalID);
@@ -255,6 +265,58 @@ function merge(arr, sorted, left, mid, right) {
     }
 }
 
+// Quick sort algorithm
+function quickSort() {
+    var low = 0;
+    var high = rectangles.length - 1;
+    var stack = [];
+    var top = -1;
+    stack[++top] = low;
+    stack[++top] = high;
+    if (sortingIntervalID !== null) {
+        clearInterval(sortingIntervalID);
+    }
+    sortingIntervalID = setInterval(function() {
+        if (top < 0) {
+            clearInterval(sortingIntervalID);
+            return;
+        }
+        high = stack[top--];
+        low = stack[top--];
+        var pivotIndex = partition(low, high);
+        if (pivotIndex - 1 > low) {
+            stack[++top] = low;
+            stack[++top] = pivotIndex - 1;
+        }
+        if (pivotIndex + 1 < high) {
+            stack[++top] = pivotIndex + 1;
+            stack[++top] = high;
+        }
+        triangle.x = rectangles[pivotIndex].x;
+        drawRects();
+        triangle.draw();
+    }, delay);
+}
+function partition(low, high) {
+    var pivot = rectangles[high].height;
+    var i = (low - 1);
+    for (var j = low; j <= high - 1; j++) {
+        if (rectangles[j].height < pivot) {
+            i++;
+            swapRectangles(i, j);
+        }
+    }
+    swapRectangles(i + 1, high);
+    return (i + 1);
+}
+function swapRectangles(i, j) {
+    var tempHeight = rectangles[i].height;
+    rectangles[i].height = rectangles[j].height;
+    rectangles[j].height = tempHeight;
+    rectangles[i].y = canvas.height - rectangles[i].height - 10;
+    rectangles[j].y = canvas.height - rectangles[j].height - 10;
+}
+
 // Function to change sorting algorithm
 var algoLabel = document.querySelector("#algoLabel");
 function changeSorting(new_sorting) {
@@ -280,4 +342,17 @@ function changeSorting(new_sorting) {
     drawRects();
     triangle = new Triangle(0, 0);
     triangle.draw(); 
+}
+
+// Change speed of visualisation 
+function changeSpeed() {
+    delay = document.getElementById("speed").value;
+    if (delay < 0) {
+        delay = 0;
+        document.getElementById("speed").value = 0;
+    } else if (delay > 1000) {
+        delay = 1000;
+        document.getElementById("speed").value = 1000;
+    }
+
 }

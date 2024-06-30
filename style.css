@@ -15,9 +15,6 @@ body {
 #options button#playBtn {
     width: 2em;
     height: 2em;
-    position: absolute;
-    bottom: 0.5em;
-    left: calc(50% - 1em);
     font-size: 2em;
     border-radius: 50%;
 }
@@ -80,4 +77,30 @@ canvas {
         margin-top: 25em;
         width: 90vw;
     }
+}
+
+input[type="number"] {
+    width: 10em;
+    font-family: 'Rubik', Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    font-size: 1.25em;
+}
+
+#controls {
+    position: absolute;
+    bottom: 1em;
+    display: flex;
+    gap: 1em;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+    width: 100vw;
+}
+
+#controls .speed-class h3 {
+    font-family: 'Rubik', Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    font-size: 1em;
+    font-weight: 500;
+    margin: 0;
+    margin-bottom: 0.25em;
+    background-color: var(--primary-col);
 }
