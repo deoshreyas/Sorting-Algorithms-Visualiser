@@ -1,0 +1,63 @@
+@import url('https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap');
+
+:root {
+    --primary-col: #030e4f;
+    --secondary-col: #f49f1c;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    background-color: var(--primary-col);
+    color: var(--secondary-col);
+}
+
+#options button#playBtn {
+    width: 2em;
+    height: 2em;
+    position: absolute;
+    bottom: 0.5em;
+    left: calc(50% - 1em);
+    font-size: 2em;
+    border-radius: 50%;
+}
+
+#options #buttons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1em;
+    position: absolute;
+    top: 2em;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    margin-top: 1em;
+}
+
+#options #buttons button {
+    padding: 0.15em 1em;
+    border-radius: 5em;
+}
+
+button {
+    font-size: 1.75em;
+    background-color: var(--secondary-col);
+    color: var(--primary-col);
+    border: 1px solid var(--primary-col);
+    font-family: 'Rubik', Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+}
+
+button:hover {
+    cursor: pointer;
+    background-color: var(--primary-col);
+    color: var(--secondary-col);
+    border-color: #f49f1c;
+}
+
+canvas {
+    display: block;
+    margin: 0 auto;
+    width: 50vw;
+    height: 30vw;
+    margin-top: 7.25em;
+}

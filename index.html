@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sorting Algorithms Visualiser | A project by Shreyas Deo</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="options">
+        <div id="buttons">
+            <button onclick="changeSorting(algorithms[0])">Bubble</button>
+            <button onclick="changeSorting(algorithms[1])">Selection</button>
+            <button onclick="changeSorting(algorithms[2])">Insertion</button>
+            <button onclick="changeSorting(algorithms[3])">Merge</button>
+            <button onclick="changeSorting(algorithms[4])">Quick</button>
+        </div>
+        <button id="playBtn" onclick="play()"><i class="fa-solid fa-play"></i></button>
+    </div>
+    <canvas id="canvas"></canvas>
+    <script src="script.js"></script>
+</body>
+</html>
