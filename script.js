@@ -9,7 +9,7 @@ var algorithms = ["bubble", "selection", "insertion", "merge", "quick"];
 var current_sorting = "bubble";
 
 // width of each rectangle
-var width = 5;
+var width = 1;
 
 // Delay in visualising
 var delay = 10;
@@ -81,6 +81,10 @@ function play() {
         bubbleSort();
     } else if (current_sorting == "selection") {
         selectionSort();
+    } else if (current_sorting == "insertion") {
+        insertionSort();
+    } else if (current_sorting == "merge") {
+        mergeSort();
     }
 }
 
@@ -92,7 +96,6 @@ function bubbleSort() {
     var n = rectangles.length;
     var i = 0;
     var numSorted = 0;
-    // Clear any existing sorting interval
     if (sortingIntervalID !== null) {
         clearInterval(sortingIntervalID);
     }
@@ -133,7 +136,6 @@ function bubbleSort() {
 function selectionSort() {
     var n = rectangles.length;
     var i = 0;
-    // Clear any existing sorting interval
     if (sortingIntervalID !== null) {
         clearInterval(sortingIntervalID);
     }
@@ -161,6 +163,96 @@ function selectionSort() {
             }
         }
     }, delay);
+}
+
+// Insertion sort algorithm
+function insertionSort() {
+    var n = rectangles.length;
+    var i, key, j;
+    var currentIndex = 1;
+
+    if (sortingIntervalID !== null) {
+        clearInterval(sortingIntervalID);
+    }
+    sortingIntervalID = setInterval(function() {
+        if (currentIndex < n) {
+            key = rectangles[currentIndex];
+            j = currentIndex - 1;
+            while (j >= 0 && rectangles[j].height > key.height) {
+                rectangles[j + 1] = rectangles[j];
+                j = j - 1;
+            }
+            rectangles[j + 1] = key;
+            for (let k = 0; k <= currentIndex; k++) {
+                rectangles[k].x = k * width;
+            }
+            drawRects();
+            triangle.x = rectangles[currentIndex].x;
+            triangle.draw();
+
+            currentIndex++;
+        } else {
+            clearInterval(sortingIntervalID);
+        }
+    }, delay);
+}
+
+// Merge sort algorithm visualization
+function mergeSort() {
+    var n = rectangles.length;
+    var width = 1;
+    var sorted = []; 
+    for (var i = 0; i < n; i++) {
+        sorted.push(new Rectangle(i * width, rectangles[i].height));
+    }
+    var currentSize = 1; 
+    if (sortingIntervalID !== null) {
+        clearInterval(sortingIntervalID);
+    }
+    sortingIntervalID = setInterval(function() {
+        var leftStart;
+        for (leftStart = 0; leftStart < n-1; leftStart += 2*currentSize) {
+            var mid = Math.min(leftStart + currentSize - 1, n-1);
+            var rightEnd = Math.min(leftStart + 2*currentSize - 1, n-1);
+            merge(rectangles, sorted, leftStart, mid, rightEnd);
+        }
+        drawRects();
+        triangle.draw();
+        currentSize *= 2;
+        if (currentSize >= n) {
+            clearInterval(sortingIntervalID);
+            rectangles = sorted.slice();
+        }
+    }, delay);
+}
+function merge(arr, sorted, left, mid, right) {
+    var i = left;
+    var j = mid + 1;
+    var k = left;
+    while (i <= mid && j <= right) {
+        if (arr[i].height <= arr[j].height) {
+            sorted[k].height = arr[i].height;
+            i++;
+        } else {
+            sorted[k].height = arr[j].height;
+            j++;
+        }
+        k++;
+    }
+    while (i <= mid) {
+        sorted[k].height = arr[i].height;
+        i++;
+        k++;
+    }
+    while (j <= right) {
+        sorted[k].height = arr[j].height;
+        j++;
+        k++;
+    }
+    for (let i = left; i <= right; i++) {
+        arr[i].height = sorted[i].height;
+        arr[i].y = canvas.height - arr[i].height - 10;
+    }
 }
 
 // Function to change sorting algorithm
